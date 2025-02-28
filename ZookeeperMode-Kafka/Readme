@@ -1,0 +1,155 @@
+# Kafka Cluster Setup on Kubernetes using Helm with Zookeeper Apporach
+
+![Kafka Logo](https://kafka.apache.org/images/apache-kafka.png)
+
+## Overview
+
+This project demonstrates how to set up a Kafka cluster on Kubernetes using Helm. The setup includes:
+
+- 3 Kafka brokers
+- 3 ZooKeeper instances
+- Persistence enabled for data durability
+- RBAC configuration for proper Kubernetes integration
+- KRAFT mode disabled (using traditional ZooKeeper for coordination)
+
+## Prerequisites
+
+- Kubernetes cluster
+- Helm installed
+- kubectl configured to communicate with your cluster
+- Namespace permissions to create resources
+
+## Installation Steps
+
+### 1. Add the Bitnami Helm Repository
+
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+```
+
+### 2. Create the Kafka Values Configuration File
+
+Create a file named `kafka-values.yaml` with the following content:
+
+```yaml
+image:
+  debug: true
+replicaCount: 3
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Equal"
+    value: ""
+    effect: "NoSchedule"
+externalAccess:
+  enabled: false
+  autoDiscovery:
+    enabled: true
+kraft:
+  enabled: false
+extraEnvVars:
+  - name: KAFKA_ENABLE_KRAFT
+    value: "false"
+zookeeper:
+  enabled: true
+  replicaCount: 3
+```
+
+### 3. Install Kafka using Helm
+
+```bash
+helm -n kafka upgrade --install kafka-release bitnami/kafka \
+  --create-namespace \
+  --set persistence.size=8Gi,logPersistence.size=8Gi,volumePermissions.enabled=true,persistence.enabled=true,rbac.create=true \
+  --version 23.0.7 \
+  -f kafka-values.yaml
+```
+
+![Kafka Installation](./Screenshot%202025-02-27%20144309.png)
+
+### 4. Verify the Installation
+
+```bash
+kubectl get pods -n kafka
+```
+
+![Kafka Pods](https://i.imgur.com/pT2ZXcr.png)
+
+## Working with Kafka
+
+### 1. Access a Kafka Broker Pod
+
+```bash
+kubectl exec --tty -i kafka-release-2 --namespace kafka -- bash
+```
+
+![Accessing Kafka Broker](https://i.imgur.com/VuF3q2G.png)
+
+### 2. Create a Topic
+
+Once inside the broker pod, create a topic:
+
+```bash
+kafka-topics.sh --create --topic test1 --bootstrap-server kafka-release.kafka.svc.cluster.local:9092
+```
+
+![Create Topic](https://i.imgur.com/YkTsL78.png)
+
+### 3. Produce Messages
+
+Start the Kafka producer console:
+
+```bash
+kafka-console-producer.sh --broker-list kafka-release-2.kafka-release-headless.kafka.svc.cluster.local:9092,kafka-release-1.kafka-release-headless.kafka.svc.cluster.local:9092,kafka-release-0.kafka-release-headless.kafka.svc.cluster.local:9092 --topic test1
+```
+
+Then type messages into the console:
+
+![Produce Messages](https://i.imgur.com/X2JdHnR.png)
+
+### 4. Consume Messages
+
+In a new terminal or another broker pod, start the Kafka consumer console:
+
+```bash
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test1 --from-beginning
+```
+
+You should see the messages you produced:
+
+![Consume Messages](https://i.imgur.com/qRDzf1j.png)
+
+## Configuration Details
+
+### Key Configuration Parameters
+
+- **replicaCount: 3**: Deploys 3 Kafka broker instances
+- **zookeeper.replicaCount: 3**: Deploys 3 ZooKeeper instances
+- **kraft.enabled: false**: Disables Kafka Raft (KRaft) mode
+- **persistence.size: 8Gi**: Allocates 8GB of persistent storage for each broker
+- **logPersistence.size: 8Gi**: Allocates 8GB of persistent storage for logs
+
+### Network Configuration
+
+- The brokers are accessible within the cluster at: `kafka-release.kafka.svc.cluster.local:9092`
+- Individual brokers are accessible at: `kafka-release-[0-2].kafka-release-headless.kafka.svc.cluster.local:9092`
+
+## Troubleshooting
+
+If you encounter issues:
+
+1. Check pod status: `kubectl get pods -n kafka`
+2. Check logs: `kubectl logs -n kafka kafka-release-0`
+3. Verify PVC status: `kubectl get pvc -n kafka`
+4. Ensure network connectivity between pods
+
+## Next Steps
+
+- Implement security (authentication and authorization)
+- Configure topic partitioning for production workloads
+- Set up monitoring with Prometheus and Grafana
+- Implement a proper backup strategy
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
