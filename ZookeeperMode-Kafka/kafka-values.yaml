@@ -1,0 +1,20 @@
+image:
+  debug: true
+replicaCount: 3
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Equal"
+    value: ""
+    effect: "NoSchedule"
+externalAccess:
+  enabled: false
+  autoDiscovery:
+    enabled: true
+kraft:
+  enabled: false
+extraEnvVars:
+  - name: KAFKA_ENABLE_KRAFT
+    value: "false"
+zookeeper:
+  enabled: true
+  replicaCount: 3
