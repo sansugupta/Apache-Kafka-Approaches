@@ -667,21 +667,20 @@ flowchart TD
     
     API["**External API**<br>jsonplaceholder"] --> P
     
-    style Kafka\ Ecosystem fill:#ffffff,stroke:#1a1a1a,stroke-width:2px;
-    style Applications fill:#e6f2ff,stroke:#1a1a1a,stroke-width:2px;
-    style Storage fill:#fff4e6,stroke:#1a1a1a,stroke-width:2px;
-    style B fill:#f8ecc9,stroke:#b35900,stroke-width:2px;
-    style Z fill:#ccebd6,stroke:#408000,stroke-width:2px;
-    style K fill:#d9b3ff,stroke:#660066,stroke-width:2px;
-    style UI fill:#cce5ff,stroke:#005580,stroke-width:2px;
-    style P fill:#fff4cc,stroke:#b36b00,stroke-width:2px;
-    style C fill:#ffbfbf,stroke:#993333,stroke-width:2px;
-    style S fill:#e1d5e7,stroke:#9673a6,stroke-width:2px;
-    style API fill:#cce5ff,stroke:#005580,stroke-width:2px;
+    style Kafka\ Ecosystem fill:#ffffff,stroke:#005580,stroke-width:1px;
+    style Applications fill:#d9eaff,stroke:#004080,stroke-width:1px;
+    style Storage fill:#ffebd6,stroke:#b35900,stroke-width:1px;
+    style B fill:#fff4cc,stroke:#b36b00,stroke-width:1px;
+    style Z fill:#e8f5e9,stroke:#388e3c,stroke-width:1px;
+    style K fill:#e8eaf6,stroke:#5e35b1,stroke-width:1px;
+    style UI fill:#e3f2fd,stroke:#0277bd,stroke-width:1px;
+    style P fill:#ffecb3,stroke:#ffa000,stroke-width:1px;
+    style C fill:#ffebee,stroke:#d32f2f,stroke-width:1px;
+    style S fill:#f1f8e9,stroke:#558b2f,stroke-width:1px;
+    style API fill:#e3f2fd,stroke:#0277bd,stroke-width:1px;
 
-    classDef styledNode stroke-width:4px,stroke-dasharray: 7 3,color:#800000;
-    classDef storageStyle fill:#fafad2,stroke:#696969;
-
+    classDef styledNode stroke-width:2px,stroke-dasharray: 5 2,color:#800000;
+    classDef storageStyle fill:#e3f2fd,stroke:#0277bd;
 ```
 
 ## Troubleshooting
