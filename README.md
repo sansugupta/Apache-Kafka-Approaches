@@ -650,22 +650,22 @@ for message in consumer:
 flowchart TD
     subgraph "Kubernetes Cluster"
         subgraph "Kafka Ecosystem"
-            B{{Kafka Brokers<br>3 Replicas}} <--> |Option 1| Z{{Zookeeper Ensemble<br>Traditional Mode}}
-            B <--> |Option 2| K((Kafka Controllers<br>KRaft Mode))
-            B <--> UI{{{Kafka UI<br>AKHQ Dashboard}}}:::styledNode
+            B["Kafka Brokers\n3 Replicas"] <--> |Option 1| Z["Zookeeper Ensemble\nTraditional Mode"]
+            B <--> |Option 2| K["Kafka Controllers\nKRaft Mode"]
+            B <--> UI["Kafka UI\nAKHQ Dashboard"]:::styledNode
         end
         
         subgraph "Applications"
-            P(((Producer Application<br>Fetches & Sends Data))) --> B
-            B --> C[(Consumer Application<br>Processes & Stores Data)]
+            P["Producer Application\nFetches & Sends Data"] --> B
+            B --> C["Consumer Application\nProcesses & Stores Data"]
         end
         
         subgraph "Storage"
-            C --> S[(Persistent Storage<br>For Messages)]:::storageStyle
+            C --> S["Persistent Storage\nFor Messages"]:::storageStyle
         end
     end
     
-    API[External API<br>jsonplaceholder] --> P
+    API["External API\njsonplaceholder"] --> P
     
     style Kafka\ Ecosystem fill:#ddeeff,stroke:#335f9c,stroke-width:2px;
     style Applications fill:#ffe6f2,stroke:#d40073,stroke-width:2px;
@@ -681,6 +681,7 @@ flowchart TD
 
     classDef styledNode stroke-width:4px,stroke-dasharray: 7 3,color:#ff0000;
     classDef storageStyle fill:#fafad2,stroke:#696969;
+
 ```
 
 ## Troubleshooting
