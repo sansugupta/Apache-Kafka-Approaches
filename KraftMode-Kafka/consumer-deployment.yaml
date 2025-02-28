@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+  namespace: kafka  # Ensure this namespace exists
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+        - name: kafka-consumer
+          image: localhost:32000/kafka-consumer:latest  # Replace with your actual image
+          command: ["python", "/app/kafka_consumer.py"]
+          volumeMounts:
+            - name: messages-storage
+              mountPath: /data  # This will store messages persistently
+      volumes:
+        - name: messages-storage
+          persistentVolumeClaim:
+            claimName: kafka-messages-pvc
