@@ -650,36 +650,36 @@ for message in consumer:
 flowchart TD
     subgraph "Kubernetes Cluster"
         subgraph "Kafka Ecosystem"
-            B["Kafka Brokers\n3 Replicas"] <--> |Option 1| Z["Zookeeper Ensemble\nTraditional Mode"]
-            B <--> |Option 2| K["Kafka Controllers\nKRaft Mode"]
-            B <--> UI["Kafka UI\nAKHQ Dashboard"]:::styledNode
+            B{{**Kafka Brokers**<br>3 Replicas}} <--> |**Option 1**| Z{{**Zookeeper Ensemble**<br>Traditional Mode}}
+            B <--> |**Option 2**| K((**Kafka Controllers**<br>KRaft Mode))
+            B <--> UI{{**Kafka UI**<br>AKHQ Dashboard}}:::styledNode
         end
         
         subgraph "Applications"
-            P["Producer Application\nFetches & Sends Data"] --> B
-            B --> C["Consumer Application\nProcesses & Stores Data"]
+            P(((**Producer Application**<br>Fetches & Sends Data))) --> B
+            B --> C[(**Consumer Application**<br>Processes & Stores Data)]
         end
         
         subgraph "Storage"
-            C --> S["Persistent Storage\nFor Messages"]:::storageStyle
+            C --> S[(**Persistent Storage**<br>For Messages)]:::storageStyle
         end
     end
     
-    API["External API\njsonplaceholder"] --> P
+    API["**External API**<br>jsonplaceholder"] --> P
     
-    style Kafka\ Ecosystem fill:#ddeeff,stroke:#335f9c,stroke-width:2px;
-    style Applications fill:#ffe6f2,stroke:#d40073,stroke-width:2px;
-    style Storage fill:#e6ffee,stroke:#008080,stroke-width:2px;
-    style B fill:#fffafa,stroke:#556b2f,stroke-width:3px,stroke-dasharray: 5 5;
-    style Z fill:#f5f5dc,stroke:#8b4513,stroke-width:2px;
-    style K fill:#e0e0e0,stroke:#000000,stroke-width:3px;
-    style UI fill:#fffacd,stroke:#00008b,stroke-width:3px;
-    style P fill:#ffc0cb,stroke:#8b0000,stroke-width:3px,stroke-dasharray: 10 5;
-    style C fill:#e0ffff,stroke:#4682b4,stroke-width:3px;
+    style Kafka\ Ecosystem fill:#ffffff,stroke:#1a1a1a,stroke-width:2px;
+    style Applications fill:#e6f2ff,stroke:#1a1a1a,stroke-width:2px;
+    style Storage fill:#fff4e6,stroke:#1a1a1a,stroke-width:2px;
+    style B fill:#f8ecc9,stroke:#b35900,stroke-width:2px;
+    style Z fill:#ccebd6,stroke:#408000,stroke-width:2px;
+    style K fill:#d9b3ff,stroke:#660066,stroke-width:2px;
+    style UI fill:#cce5ff,stroke:#005580,stroke-width:2px;
+    style P fill:#fff4cc,stroke:#b36b00,stroke-width:2px;
+    style C fill:#ffbfbf,stroke:#993333,stroke-width:2px;
     style S fill:#e1d5e7,stroke:#9673a6,stroke-width:2px;
-    style API fill:#d8bfd8,stroke:#7cfc00,stroke-width:3px;
+    style API fill:#cce5ff,stroke:#005580,stroke-width:2px;
 
-    classDef styledNode stroke-width:4px,stroke-dasharray: 7 3,color:#ff0000;
+    classDef styledNode stroke-width:4px,stroke-dasharray: 7 3,color:#800000;
     classDef storageStyle fill:#fafad2,stroke:#696969;
 
 ```
